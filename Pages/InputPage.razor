@@ -1,0 +1,41 @@
+﻿@page "/inputpage"
+@using VpAssignment2.Models;
+@using VpAssignment2.Data
+
+<h3>InputPage</h3>
+
+
+<label for="rollNum">Enter Roll Number:</label>
+<input id="rollNum" type="number" @bind="mystudent.Roll_num" />
+
+<label for="name">Enter Name:</label>
+<input id="name" type="text" @bind="mystudent.Name" />
+
+<label for="department">Enter Department:</label>
+<input id="department" type="text" @bind="mystudent.Department" />
+
+<label for="cgpa">Enter CGPA:</label>
+<input id="cgpa" type="number" @bind="mystudent.CGPA" />
+
+<button @onclick="SubmitForm">Submit</button>
+
+@code {
+    [Inject]
+    public AppDbContext? DbContext { get; set; }
+
+    public StudentModel mystudent = new StudentModel();
+    private void SubmitForm()
+    {
+     
+        DbContext?.Students.Add(new StudentModel
+            {
+                Roll_num = mystudent.Roll_num,
+                Name = mystudent.Name,
+                Department = mystudent.Department,
+                CGPA = mystudent.CGPA
+            });
+        DbContext?.SaveChanges();
+
+
+    }
+}
